@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("plugin.serialization") version "1.9.0"
-    id("com.google.dagger.hilt.android")
+//    id("com.google.dagger.hilt.android")
     id("kotlinx-serialization")
-    id("com.google.devtools.ksp")
+//    id("com.google.devtools.ksp")
 }
 
 android {
@@ -21,6 +21,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+//        dataBinding = true
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -50,6 +54,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //navigation components
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
     //for lifecycle viewmodel providers and livedata
     implementation (libs.androidx.lifecycle.extensions)
 
@@ -65,14 +73,6 @@ dependencies {
     //for  recyclerview
     implementation (libs.androidx.recyclerview)
 
-    //Dependency Injection Dagger Hilt
-    implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
 
-    annotationProcessor(libs.dagger.android.processor)
-
-    ksp(libs.hilt.android.compiler)
-    ksp(libs.dagger.compiler)
-    ksp(libs.androidx.hilt.compiler)
 
 }

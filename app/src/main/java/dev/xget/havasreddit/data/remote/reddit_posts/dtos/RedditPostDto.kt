@@ -2,7 +2,7 @@ package dev.xget.havasreddit.data.remote.reddit_posts.dtos
 
 
 import com.google.gson.annotations.SerializedName
-
+import dev.xget.havasreddit.domain.model.RedditPost
 
 
 data class RedditPostDto(
@@ -61,11 +61,11 @@ data class RedditPostDto(
     val subreddit: String? = "",
     @SerializedName("subreddit_name_prefixed")
     val subredditNamePrefixed: String? = "",
-    @SerializedName("thumbnail")
-    val thumbnail: String? = "",
-    @SerializedName("thumbnail_height")
+    @SerializedName("thumbnail") //important
+    val thumbnailUrl: String? = "",
+    @SerializedName("thumbnail_height") //important
     val thumbnailHeight: Int? = 0,
-    @SerializedName("thumbnail_width")
+    @SerializedName("thumbnail_width") //important
     val thumbnailWidth: Int? = 0,
     @SerializedName("title") //important
     val title: String? = "",
@@ -73,4 +73,19 @@ data class RedditPostDto(
     val ups: Int? = 0,
     @SerializedName("url")
     val url: String? = "",
-)
+){
+    fun asDomain() : RedditPost =
+        RedditPost(
+            author = author ?: "",
+            createdAt = createdUtc?.toLong() ?: 0,
+            id = id ?: "",
+            numComments = numComments ?: 0,
+            score = score ?: 0,
+            thumbnailUrl = thumbnailUrl ?: "",
+            hasMedia = media != null,
+            title = title ?: "",
+            url = url ?: "",
+            onlyImage = mediaOnly ?: false
+        )
+
+}

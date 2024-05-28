@@ -1,10 +1,10 @@
 package dev.xget.havasreddit.data.remote.reddit_posts.dtos
 
 
-import kotlinx.serialization.SerializedName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
+
 data class Media(
     @SerializedName("reddit_video")
     val redditVideo: RedditVideo? = RedditVideo()
