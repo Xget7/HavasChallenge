@@ -22,11 +22,20 @@ class PostDetailViewModel(
     }
 
     private fun getSavedPost() {
-        repository.getSavedRedditPost()?.let { post ->
-            Log.d("PostDetailViewModel", "getSavedPost: $post")
+        try {
+            repository.getSavedRedditPost()?.let { post ->
+                Log.d("PostDetailViewModel", "getSavedPost: $post")
+                _state.update {
+                    it.copy(
+                        redditPost = post
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("PostDetailViewModel", "getSavedPost: ${e.message}", e)
             _state.update {
                 it.copy(
-                    redditPost = post
+                    error = e.message
                 )
             }
         }

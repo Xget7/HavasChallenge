@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -69,6 +70,7 @@ class HomeScreenFragment : Fragment() {
                     viewModel.onNavigatedToDetailsScreen()
                 }
             }
+
         }
         Log.d("HomeScreenFragment", "onCreate: ")
     }
@@ -89,7 +91,31 @@ class HomeScreenFragment : Fragment() {
         viewModel.redditPosts.observe(viewLifecycleOwner) {
             Log.d("HomeScreenFragment", "onCreate: ${it.size}")
             updateRecyclerView(it)
+            showSuccess()
         }
+        viewModel.errorState.observe(viewLifecycleOwner) { error ->
+            if (error.first) {
+                // Show error message
+                showError()
+                Toast.makeText(context, error.second, Toast.LENGTH_SHORT).show()
+                viewModel.clearError()
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private fun showSuccess() {
+        binding?.progressBar?.visibility = View.GONE
+        binding?.errorMsg?.visibility = View.GONE
+    }
+
+    private fun showError() {
+        binding?.progressBar?.visibility = View.GONE
+        binding?.errorMsg?.visibility = View.VISIBLE
     }
 
     private fun updateRecyclerView(redditPosts: List<RedditPost>) {

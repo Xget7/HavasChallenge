@@ -8,6 +8,8 @@ import dev.xget.havasreddit.HavasRedditApp
 import dev.xget.havasreddit.R
 import dev.xget.havasreddit.data.repository.reddit.FakeAndroidRedditPostsRepositoryTest
 import dev.xget.havasreddit.domain.repository.reddit.RedditPostsRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.*
@@ -15,6 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @MediumTest //"medium run-time" integration test
 @RunWith(AndroidJUnit4::class)
 class HomeScreenFragmentTest {
@@ -31,6 +34,7 @@ class HomeScreenFragmentTest {
             HavasRedditApp.appModule.redditPostsRemoteDataSource,
             HavasRedditApp.appModule.redditPostsLocalDataSource
         )
+        HavasRedditApp.appModule.redditPostsRepository = repository
         homeScreenViewModel = HomeScreenViewModel(repository)
     }
 
@@ -40,14 +44,18 @@ class HomeScreenFragmentTest {
     }
 
 
+
+        //Later can use expresso to test navigation when click on a post
     @Test
-    fun test() {
+    fun test() = runTest{
         //Given
+        launchFragmentInContainer<HomeScreenFragment>(null, R.style.Theme_HavasReddit)
 
         //When
-
-
+        homeScreenViewModel.getRedditPosts()
+        advanceUntilIdle()
         //Then
-        launchFragmentInContainer<HomeScreenFragment>(null, R.style.Theme_HavasReddit)
+
+        assertNotNull(homeScreenViewModel.redditPosts.value)
     }
 }

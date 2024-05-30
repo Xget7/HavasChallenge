@@ -47,10 +47,8 @@ class AppModule(
         RedditPostsLocalDataSourceImpl(sharedPreferences)
     }
 
-
-    override val redditPostsRepository: RedditPostsRepository by lazy {
-        RedditPostsRepositoryImpl(redditPostsRemoteDataSource, redditPostsLocalDataSource, dispatcherIO)
-    }
+// No the best DI implementation, need to refactor
+    override var redditPostsRepository: RedditPostsRepository = RedditPostsRepositoryImpl(redditPostsRemoteDataSource, redditPostsLocalDataSource, dispatcherIO)
 
 
 }

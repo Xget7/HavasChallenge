@@ -19,6 +19,7 @@ class HomeScreenViewModel(
     val navigateToDetailsScreenLiveData = navigateToDetailsScreen
     val _redditPosts = MutableLiveData(emptyList<RedditPost>())
     val redditPosts = _redditPosts
+    val errorState = MutableLiveData(Pair(false, ""))
 
     init {
         getRedditPosts()
@@ -26,15 +27,24 @@ class HomeScreenViewModel(
 
     fun getRedditPosts() {
         viewModelScope.launch {
-            redditPostsRepository.getRedditPosts().let {
-                Log.d("HomeScreenViewModel", "getRedditPosts: $it")
-                _redditPosts.postValue(it)
+            try {
+                redditPostsRepository.getRedditPosts().let {
+                    Log.d("HomeScreenViewModel", "getRedditPosts: $it")
+                    _redditPosts.postValue(it)
+                }
+            }catch (e: Exception){
+                Log.e("HomeScreenViewModel", "getRedditPosts: ${e.message}", e)
+                errorState.postValue(Pair(true, e.message ?: "Error fetching data from server"))
             }
         }
     }
 
     fun onNavigatedToDetailsScreen() {
         navigateToDetailsScreen.postValue(false)
+    }
+
+    fun clearError() {
+        errorState.postValue(Pair(false, ""))
     }
 
     val onPostClickListenerCallback = object : OnItemClickListener<RedditPost> {

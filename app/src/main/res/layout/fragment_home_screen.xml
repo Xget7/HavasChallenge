@@ -7,6 +7,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.reddit_posts.home_screen.HomeScreenFragment">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/violet"
+        android:visibility="visible"
+        />
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:text="@string/no_data_available_text"
+        android:textColor="@color/black"
+        />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,6 +33,7 @@
         android:layout_marginBottom="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="match_parent"
         android:id="@+id/rv_view"
         tools:listitem="@layout/reddit_post_item"
