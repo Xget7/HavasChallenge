@@ -8,11 +8,13 @@ import androidx.lifecycle.viewModelScope
 import dev.xget.havasreddit.domain.model.RedditPost
 import dev.xget.havasreddit.domain.repository.reddit.RedditPostsRepository
 import dev.xget.havasreddit.presentation.reddit_posts.home_screen.recycler_adapter.OnItemClickListener
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class HomeScreenViewModel(
-    private val redditPostsRepository: RedditPostsRepository
+    private val redditPostsRepository: RedditPostsRepository,
 ) : ViewModel() {
 
     private val navigateToDetailsScreen = MutableLiveData(false)
@@ -30,11 +32,16 @@ class HomeScreenViewModel(
             try {
                 redditPostsRepository.getRedditPosts().let {
                     Log.d("HomeScreenViewModel", "getRedditPosts: $it")
+                    viewModelScope.launch(Dispatchers.Main) {
                     _redditPosts.postValue(it)
+                    }
                 }
             }catch (e: Exception){
                 Log.e("HomeScreenViewModel", "getRedditPosts: ${e.message}", e)
-                errorState.postValue(Pair(true, e.message ?: "Error fetching data from server"))
+                viewModelScope.launch(Dispatchers.Main) {
+                    errorState.postValue(Pair(true, e.message ?: "Error fetching data from server"))
+                }
+
             }
         }
     }

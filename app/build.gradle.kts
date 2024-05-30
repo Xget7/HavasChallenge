@@ -61,11 +61,13 @@ dependencies {
     implementation(libs.androidx.junit.ktx)
     implementation (libs.androidx.fragment.testing)
     implementation (libs.androidx.core)
+    implementation(libs.androidx.espresso.contrib)
 
     testImplementation(libs.junit)
     testImplementation("junit:junit:4.12")
     testImplementation (libs.androidx.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.core.testing)
 
 
     androidTestImplementation(libs.androidx.junit)

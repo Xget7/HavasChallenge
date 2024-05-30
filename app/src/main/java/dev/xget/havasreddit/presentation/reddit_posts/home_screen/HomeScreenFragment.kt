@@ -109,19 +109,28 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun showSuccess() {
-        binding?.progressBar?.visibility = View.GONE
-        binding?.errorMsg?.visibility = View.GONE
+        requireActivity().runOnUiThread {
+            binding?.progressBar?.visibility = View.GONE
+            binding?.errorMsg?.visibility = View.GONE
+        }
     }
 
     private fun showError() {
-        binding?.progressBar?.visibility = View.GONE
-        binding?.errorMsg?.visibility = View.VISIBLE
+        requireActivity().runOnUiThread {
+            binding?.progressBar?.visibility = View.GONE
+            binding?.errorMsg?.visibility = View.VISIBLE
+        }
     }
 
     private fun updateRecyclerView(redditPosts: List<RedditPost>) {
-        val adapter = RedditPostAdapter(redditPosts, viewModel.onPostClickListenerCallback)
-        binding?.rvView?.adapter = adapter
-        Log.d("HomeScreenFragment", "updateRecyclerView: ${redditPosts.size} ${adapter.itemCount}")
+        requireActivity().runOnUiThread {
+            val adapter = RedditPostAdapter(redditPosts, viewModel.onPostClickListenerCallback)
+            binding?.rvView?.adapter = adapter
+            Log.d(
+                "HomeScreenFragment",
+                "updateRecyclerView: ${redditPosts.size} ${adapter.itemCount}"
+            )
+        }
     }
 }
 

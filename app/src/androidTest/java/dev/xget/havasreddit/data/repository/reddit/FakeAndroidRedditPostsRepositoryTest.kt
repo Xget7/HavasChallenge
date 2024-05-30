@@ -8,8 +8,8 @@ import dev.xget.havasreddit.domain.repository.reddit.RedditPostsRepository
 import org.junit.Assert.*
 
 class FakeAndroidRedditPostsRepositoryTest(
-    val postsRemoteDataSourceI: RedditPostsRemoteDataSourceI,
-    val localDataSourceI: RedditPostsLocalDataSourceI
+    private val postsRemoteDataSourceI: RedditPostsRemoteDataSourceI,
+    private val localDataSourceI: RedditPostsLocalDataSourceI
 ) : RedditPostsRepository {
 
     override suspend fun getRedditPosts(): List<RedditPost> {

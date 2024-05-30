@@ -3,6 +3,7 @@ package dev.xget.havasreddit.core.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.annotation.VisibleForTesting
 import dev.xget.havasreddit.HavasRedditApp
 import dev.xget.havasreddit.R
 import dev.xget.havasreddit.data.local.reddit_posts.RedditPostsLocalDataSourceI
@@ -48,7 +49,8 @@ class AppModule(
     }
 
 // No the best DI implementation, need to refactor
+    @Volatile
     override var redditPostsRepository: RedditPostsRepository = RedditPostsRepositoryImpl(redditPostsRemoteDataSource, redditPostsLocalDataSource, dispatcherIO)
-
+        @VisibleForTesting set
 
 }
