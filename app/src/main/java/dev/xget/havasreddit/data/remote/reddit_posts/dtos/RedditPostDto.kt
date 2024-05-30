@@ -1,9 +1,12 @@
 package dev.xget.havasreddit.data.remote.reddit_posts.dtos
 
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
+import dev.xget.havasreddit.core.utils.CoreUtils.getFormattedComments
+import dev.xget.havasreddit.core.utils.CoreUtils.getFormattedUpVotes
+import dev.xget.havasreddit.core.utils.CoreUtils.imageExtensionsForDownload
 import dev.xget.havasreddit.domain.model.RedditPost
-
 
 data class RedditPostDto(
 
@@ -21,8 +24,6 @@ data class RedditPostDto(
     val domain: String? = "",
     @SerializedName("downs")
     val downs: Int? = 0,
-    @SerializedName("edited")
-    val edited: Double? = 0.0,
     @SerializedName("hidden")
     val hidden: Boolean? = false,
     @SerializedName("hide_score")
@@ -73,19 +74,28 @@ data class RedditPostDto(
     val ups: Int? = 0,
     @SerializedName("url")
     val url: String? = "",
-){
-    fun asDomain() : RedditPost =
-        RedditPost(
+) {
+    fun asDomain(): RedditPost {
+        Log.d("c", "asDomain: title: $title")
+        return RedditPost(
             author = author ?: "",
             createdAt = createdUtc?.toLong() ?: 0,
             id = id ?: "",
-            numComments = numComments ?: 0,
-            score = score ?: 0,
+            body = selftext ?: "",
+            numComments = getFormattedComments(numComments ?: 0),
+            upVotes = getFormattedUpVotes(ups.toString()),
             thumbnailUrl = thumbnailUrl ?: "",
-            hasMedia = media != null,
+            imageUrl = url.orEmpty(),
+            hasMedia = hasMedia(),
             title = title ?: "",
-            url = url ?: "",
             onlyImage = mediaOnly ?: false
         )
+    }
 
+    private fun hasMedia(): Boolean {
+        return preview?.images?.isNotEmpty() == true && url?.let {
+            imageExtensionsForDownload.any { ext -> it.contains(ext, ignoreCase = true) }
+        } == true
+    }
 }
+

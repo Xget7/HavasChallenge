@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface RedditApiService {
 
-    @GET
+    @GET(".json")
     suspend fun getRedditPosts() : Response<RedditPostsResponse>
 
 }

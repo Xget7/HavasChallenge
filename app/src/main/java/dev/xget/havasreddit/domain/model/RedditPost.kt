@@ -5,11 +5,14 @@ data class RedditPost(
     val author: String = "",
     val createdAt: Long = 0,
     val id: String = "",
-    val numComments: Int = 0,
-    val score: Int = 0,
+    val body: String = "",
+    val numComments: String = "",
+    val upVotes: String = "",
     val thumbnailUrl: String = "",
-    val hasMedia : Boolean = false,
+    val imageUrl: String = "",
+    val hasMedia: Boolean = false,
     val title: String = "",
-    val url: String = "",
-    val onlyImage : Boolean = false,
-)
+    val onlyImage: Boolean = false,
+) {
+
+}

@@ -9,7 +9,12 @@
         android:id="@+id/postDetailFragment"
         android:name="dev.xget.havasreddit.presentation.reddit_posts.detail_screen.PostDetailFragment"
         android:label="fragment_post_detail"
-        tools:layout="@layout/fragment_post_detail" />
+        tools:layout="@layout/fragment_post_detail" >
+        <action
+            android:id="@+id/action_postDetailFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/homeScreenFragment"
         android:name="dev.xget.havasreddit.presentation.reddit_posts.home_screen.HomeScreenFragment"
